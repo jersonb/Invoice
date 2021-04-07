@@ -1,26 +1,35 @@
 ﻿using Invoice.Client.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net.Mime;
 
 namespace Invoice.Client.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IHostingEnvironment _env;
+
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IHostingEnvironment env)
         {
             _logger = logger;
+            _env = env;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Print()
+        {
+            var path = _env.WebRootFileProvider.GetFileInfo("LOGO.jpg")?.PhysicalPath;
+
+            return File(new PdfGenerator.GeneratePdf(new Uri(path)).PdfInMemoryStream.ToArray(), MediaTypeNames.Application.Pdf, "teste.pdf", true);
         }
 
         public IActionResult Privacy()
