@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Invoice.Client", "Invoice.Client\Invoice.Client.csproj", "{C9F9C85B-9E3B-4B7E-8490-E2C7A46AD0F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfGenerator", "..\..\teste-jerson\PdfGenerator\PdfGenerator.csproj", "{49643454-328B-4BAF-8595-FB72944761DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfGenerator", "PdfGenerator\PdfGenerator.csproj", "{54B8D80A-A807-4AAB-936C-ED5BA57804EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{C9F9C85B-9E3B-4B7E-8490-E2C7A46AD0F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9F9C85B-9E3B-4B7E-8490-E2C7A46AD0F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9F9C85B-9E3B-4B7E-8490-E2C7A46AD0F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{49643454-328B-4BAF-8595-FB72944761DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{49643454-328B-4BAF-8595-FB72944761DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{49643454-328B-4BAF-8595-FB72944761DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{49643454-328B-4BAF-8595-FB72944761DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54B8D80A-A807-4AAB-936C-ED5BA57804EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B8D80A-A807-4AAB-936C-ED5BA57804EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B8D80A-A807-4AAB-936C-ED5BA57804EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B8D80A-A807-4AAB-936C-ED5BA57804EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
