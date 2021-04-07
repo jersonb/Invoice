@@ -1,0 +1,26 @@
+name: .NET Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+    env:
+      config: 'Release'
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Install dependencies
+      run: dotnet restore ./src/Invoice.sln
+      
+    - name: Build
+      run: dotnet build ./src/Invoice.sln --configuration $config --no-restore
