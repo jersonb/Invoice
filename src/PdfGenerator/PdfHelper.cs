@@ -81,17 +81,19 @@ namespace PdfGenerator
 
         #region Rectangle
 
-        internal void Rectangle(float width, float height, float? xInit = null, float? yInit = null, float? widthLine = null, float? radius = null, BaseColor boaderColor = null, BaseColor internColor = null, float? opacity = null)
+        public void RoundRectangle(float xInit, float yInit, float width, float height, float radius = 0, float lineWidth = 1, float opacity = 0, BaseColor boarderColor = null, BaseColor insideColor = null)
         {
             var gs1 = new PdfGState
             {
-                FillOpacity = opacity ?? 1,
+                FillOpacity = opacity,
             };
             _contentByte.SetGState(gs1);
             _contentByte.SaveState();
-            _contentByte.Rectangle(xInit ?? 0, yInit ?? 0, width, height);
-            _contentByte.SetColorFill(internColor ?? BaseColor.White);
-            _contentByte.Fill();
+            _contentByte.SetColorFill(insideColor ?? BaseColor.White);
+            _contentByte.SetLineWidth(lineWidth);
+            _contentByte.SetColorStroke(boarderColor ?? BaseColor.Black);
+            _contentByte.RoundRectangle(xInit, yInit, width, height, radius);
+            _contentByte.FillStroke();
             _contentByte.RestoreState();
         }
 
