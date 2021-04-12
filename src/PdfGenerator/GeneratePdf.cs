@@ -30,24 +30,25 @@ namespace PdfGenerator
                 var heigth = doc.Top - doc.Bottom;
                 var padding = 5f;
 
-                pdf.AddImage(logo, absoluteX: doc.Left + padding, absoluteY: doc.Top - (logo.Height + padding));
+                pdf.AddImage(logo, absoluteX: doc.Left + padding, absoluteY: doc.Top - 65f);
                 pdf.Text(Labels.LEGAL_NAME, nameFont: BaseFont.TIMES_BOLD, sizeFont: 18, positionX: width * 0.5f, positionY: doc.Top - (padding * 6), align: Element.ALIGN_CENTER);
-                pdf.Text(Labels.CNPJ, nameFont: BaseFont.COURIER_BOLD, sizeFont: 12, positionX: width * 0.45f, doc.Top - (padding * 9), align: Element.ALIGN_CENTER);
-                pdf.Text(Labels.ADDRESS, nameFont: BaseFont.HELVETICA_BOLDOBLIQUE, sizeFont: 7, positionX: width * 0.45f, doc.Top - (padding * 11), align: Element.ALIGN_CENTER);
-                pdf.Text($"{Labels.CEP} {Labels.PHONE}", nameFont: BaseFont.HELVETICA_BOLDOBLIQUE, sizeFont: 7, positionX: 250, doc.Top - (padding * 13), align: Element.ALIGN_CENTER);
+                pdf.Text(Labels.CNPJ, nameFont: BaseFont.COURIER_BOLD, sizeFont: 12, positionX: 260f, doc.Top - (padding * 9.5f), align: Element.ALIGN_CENTER);
+                pdf.Text(Labels.ADDRESS, nameFont: BaseFont.HELVETICA_BOLDOBLIQUE, sizeFont: 7, positionX: 260f, positionY: doc.Top - (padding * 12), align: Element.ALIGN_CENTER);
+                pdf.Text($"{Labels.CEP} {Labels.PHONE}", nameFont: BaseFont.HELVETICA_BOLDOBLIQUE, sizeFont: 7, positionX: 260f, positionY: doc.Top - (padding * 14), align: Element.ALIGN_CENTER);
 
+                var sizeHeader = 80f;
                 var collumnAligne = doc.Left + (width * 0.65f) + (padding * 2);
-                pdf.Text(Labels.DESCRIPTION, nameFont: BaseFont.HELVETICA_BOLD, sizeFont: 8, positionX: width * 0.9f, doc.Top - (padding * 2), align: Element.ALIGN_CENTER);
+                pdf.Text(Labels.DESCRIPTION, nameFont: BaseFont.HELVETICA_BOLD, sizeFont: 8, positionX: width * 0.9f, positionY: doc.Top - (padding * 2.5f), align: Element.ALIGN_CENTER);
                 pdf.Text($"Emissão Data: {DateTime.Now:dd/MM/yyyy}", nameFont: BaseFont.HELVETICA, sizeFont: 8, positionX: collumnAligne, doc.Top - (padding * 5), align: Element.ALIGN_LEFT);
                 pdf.Text($"Insc. Municipal N°: 6124836", nameFont: BaseFont.HELVETICA, sizeFont: 8, positionX: collumnAligne, doc.Top - (padding * 7), align: Element.ALIGN_LEFT);
                 pdf.Text($"Natureza da Operação: Locação de Veículos", nameFont: BaseFont.HELVETICA, sizeFont: 8, positionX: collumnAligne, doc.Top - (padding * 9), align: Element.ALIGN_LEFT);
                 pdf.Text($"Série: Única", nameFont: BaseFont.HELVETICA, sizeFont: 8, positionX: collumnAligne, doc.Top - (padding * 11), align: Element.ALIGN_LEFT);
                 pdf.Text("N°: 00555", nameFont: BaseFont.HELVETICA_BOLD, sizeFont: 12, positionX: width * 0.9f, doc.Top - (padding * 14), align: Element.ALIGN_CENTER);
 
-                pdf.RoundRectangle(doc.Left, doc.Top - (padding * 15), (width * 0.65f) + padding, padding * 15, radius: 2f);
-                pdf.RoundRectangle(doc.Left + (width * 0.65f) + padding, doc.Top - (padding * 15), (width * 0.35f) - padding, padding * 15, radius: 2f);
+                pdf.RoundRectangle(xInit: doc.Left, yInit: doc.Top - sizeHeader, width: (width * 0.65f) + padding, height: sizeHeader, radius: 2f);
+                pdf.RoundRectangle(xInit: doc.Left + (width * 0.65f) + padding, yInit: doc.Top - sizeHeader, width: (width * 0.35f) - padding, height: sizeHeader, radius: 2f);
 
-                pdf.RoundRectangle(doc.Left, doc.Bottom, width, heigth, lineWidth: 1.5f, boarderColor: BaseColor.LightGray);
+              pdf.RoundRectangle(doc.Left, doc.Bottom, width, heigth, lineWidth: 1.5f, boarderColor: BaseColor.LightGray);
                 doc.Close();
                 var msInfo = ms.ToArray();
                 ms.Write(msInfo, 0, msInfo.Length);
@@ -55,9 +56,9 @@ namespace PdfGenerator
                 ms.Position = 0;
                 return ms;
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
-                throw new InvalidOperationException($"algo de errado com o link {Logo.AbsoluteUri.Replace(".png", "")}");
+                throw new InvalidOperationException($"");
             }
         }
     }

@@ -95,6 +95,7 @@ namespace PdfGenerator
             _contentByte.RoundRectangle(xInit, yInit, width, height, radius);
             _contentByte.FillStroke();
             _contentByte.RestoreState();
+
         }
 
         #endregion Rectangle
