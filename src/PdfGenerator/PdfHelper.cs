@@ -14,15 +14,15 @@ namespace PdfGenerator
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Estilo", "IDE0044:Adicionar modificador somente leitura", Justification = "Não ajuda")]
         private PdfWriter pdf;
 
-        internal float CenterX
+        public float CenterX
            => _doc.PageSize.Width / 2;
 
-        internal float CenterY
+        public float CenterY
            => _doc.PageSize.Height / 2;
 
         #endregion Properties
 
-        internal PdfHelper(Document doc, MemoryStream ms)
+        public PdfHelper(Document doc, MemoryStream ms)
         {
             _doc = doc;
             pdf = PdfWriter.GetInstance(doc, ms);
@@ -43,7 +43,7 @@ namespace PdfGenerator
             _contentByte.EndText();
         }
 
-        internal void Text(string text, string nameFont = null, int? sizeFont = null, float? positionX = null, float? positionY = null, BaseColor color = null, int? align = null)
+        public void Text(string text, string nameFont = null, int? sizeFont = null, float? positionX = null, float? positionY = null, BaseColor color = null, int? align = null)
              => Text
                  (
                      text
@@ -57,6 +57,12 @@ namespace PdfGenerator
 
         #endregion Text
 
+        public void Line(float y)
+        {
+            _contentByte.MoveTo(_doc.Left, y);
+            _contentByte.LineTo(_doc.Right, y);
+        }
+
         #region Image
 
         private void AddImage(Image image, float absoluteX, float absoluteY, float width, float height)
@@ -67,7 +73,7 @@ namespace PdfGenerator
             _doc.Add(image);
         }
 
-        internal void AddImage(Image image, float? absoluteX = null, float? absoluteY = null, float? width = null, float? height = null)
+        public void AddImage(Image image, float? absoluteX = null, float? absoluteY = null, float? width = null, float? height = null)
             => AddImage
             (
                 image
@@ -95,9 +101,30 @@ namespace PdfGenerator
             _contentByte.RoundRectangle(xInit, yInit, width, height, radius);
             _contentByte.FillStroke();
             _contentByte.RestoreState();
-
         }
 
         #endregion Rectangle
+
+        private BaseFont GetFont(string font)
+           => BaseFont.CreateFont(font, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+
+        public void BigTextLeftColumn(string text, float xInit, float yInit, float width, float height, string nameFont = null, int? sizeFont = null, int? align = null)
+        {
+            var phrase = new Phrase(text, new Font(GetFont(nameFont ?? BaseFont.COURIER), sizeFont ?? 10));
+            var columnText = new ColumnText(_contentByte)
+            {
+                Alignment = align ?? Element.ALIGN_LEFT,
+                AdjustFirstLine = false,
+                Leading = 10
+            };
+
+            columnText.Indent = 0;
+
+            columnText.SetText(phrase);
+
+            columnText.SetSimpleColumn(xInit, yInit, xInit + width, yInit + height);
+
+            columnText.Go();
+        }
     }
 }

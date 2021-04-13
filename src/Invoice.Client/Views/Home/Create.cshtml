@@ -1,0 +1,144 @@
+﻿@model Invoice.Client.Models.InvoiceModel
+
+@{
+    ViewData["Title"] = "Gerar Fatura";
+}
+
+<h1>Gerar Fatura</h1>
+<hr />
+<form asp-action="Print">
+    <div class="row">
+        <div class="col-sm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-12 col-lg-12 col-xl-12">
+                <h4><label asp-for="Client" class="control-label"></label></h4>
+                <div class="card-group">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <label class="control-label">Dados</label>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Client.Name" class="control-label"></label>
+                                <input asp-for="Client.Name" class="form-control " />
+                                <span asp-validation-for="Client.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Client.LegalNumber" class="control-label"></label>
+                                <input asp-for="Client.LegalNumber" class="form-control cpfcnpj" />
+                                <span asp-validation-for="Client.LegalNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Client.RegionalLegalNumber" class="control-label"></label>
+                                <input asp-for="Client.RegionalLegalNumber" class="form-control " />
+                                <span asp-validation-for="Client.RegionalLegalNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <label asp-for="Client.Address" class="control-label"></label>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Client.Address.Street" class="control-label"></label>
+                                <input asp-for="Client.Address.Street" class="form-control " />
+                                <span asp-validation-for="Client.Address.Street" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Client.Address.Number" class="control-label"></label>
+                                <input asp-for="Client.Address.Number" class="form-control " />
+                                <span asp-validation-for="Client.Address.Number" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Client.Address.Region" class="control-label"></label>
+                                <input asp-for="Client.Address.Region" class="form-control " />
+                                <span asp-validation-for="Client.Address.Region" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Client.Address.State" class="control-label"></label>
+                                <input asp-for="Client.Address.State" class="form-control " />
+                                <span asp-validation-for="Client.Address.State" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Client.Address.ZipCode" class="control-label"></label>
+                                <input asp-for="Client.Address.ZipCode" class="form-control " />
+                                <span asp-validation-for="Client.Address.ZipCode" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-12 col-xl-12">
+                <h4>Fatura</h4>
+                <div class="card-group">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <label class="control-label">Dados</label>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Number" class="control-label"></label>
+                                <input asp-for="Number" type="number" min="0" class="form-control " />
+                                <span asp-validation-for="Number" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Commitment" class="control-label"></label>
+                                <input asp-for="Commitment" type="number" min="0" class="form-control " />
+                                <span asp-validation-for="Commitment" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Date" class="control-label"></label>
+                                <input asp-for="Date" type="date" class="form-control " />
+                                <span asp-validation-for="Date" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Observation" class="control-label"></label>
+                                <textarea asp-for="Observation" type="text" class="form-control " rows="2"></textarea>
+                                <span asp-validation-for="Observation" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <label asp-for="Products" class="control-label"></label>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Products[0].Description" class="control-label"></label>
+                                <input asp-for="Products[0].Description" class="form-control " />
+                                <span asp-validation-for="Products[0].Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Products[0].Quantity" class="control-label"></label>
+                                <input asp-for="Products[0].Quantity" type="number" min="0" class="form-control " />
+                                <span asp-validation-for="Products[0].Quantity" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Products[0].Value" class="control-label"></label>
+                                <input asp-for="Products[0].Value" class="form-control money" />
+                                <span asp-validation-for="Products[0].Value" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-12 col-xl-12">
+                <div class="row justify-content-between rigth">
+                    <div class="col-8 col-sm-8 ">
+                    </div>
+                    <div class="col-4 col-sm-4 ">
+                        <input class="btn btn-primary" type="submit" value="Gerar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

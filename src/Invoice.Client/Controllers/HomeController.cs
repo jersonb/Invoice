@@ -1,4 +1,5 @@
-﻿using Invoice.Client.Models;
+﻿using Invoice.Client.Data;
+using Invoice.Client.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -10,14 +11,17 @@ namespace Invoice.Client.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IHostingEnvironment _env;
+        private readonly IWebHostEnvironment _env;
 
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, IHostingEnvironment env)
+        private readonly ApplicationData _dbcontext;
+
+        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment env, ApplicationData dbcontext)
         {
             _logger = logger;
             _env = env;
+            _dbcontext = dbcontext;
         }
 
         public IActionResult Index()
@@ -25,11 +29,24 @@ namespace Invoice.Client.Controllers
             return View();
         }
 
-        public IActionResult Print()
+        public IActionResult Print([FromForm] InvoiceModel invoice)
         {
+            if(invoice is null)
+            {
+                throw new ArgumentNullException(nameof(invoice));
+            }
+
+            _dbcontext.Invoices.Add(new InvoiceData { Invoice = invoice });
+            _dbcontext.SaveChangesAsync();
+
             var path = _env.WebRootFileProvider.GetFileInfo("LOGO.jpg")?.PhysicalPath;
 
-            return File(new PdfGenerator.GeneratePdf(new Uri(path)).PdfInMemoryStream.ToArray(), MediaTypeNames.Application.Pdf, "teste.pdf", true);
+            return File(new PdfHandler(new Uri(path), invoice).PdfInMemoryStream.ToArray(), MediaTypeNames.Application.Pdf, $"{invoice.Client.Name}_{invoice.Number}.pdf", true);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
         }
 
         public IActionResult Privacy()
