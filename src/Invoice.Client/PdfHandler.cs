@@ -66,7 +66,7 @@ namespace Invoice.Client
                 #endregion Client
 
                 pdf.Text("VALOR REFERENTE POR EXTENSO:", BaseFont.HELVETICA_BOLD, 10, aligneLeft, doc.Top - 162, align: Element.ALIGN_LEFT);
-                pdf.BigTextLeftColumn(invoice.Total.DecimalToExtenso(), doc.Left + padding, doc.Top - 230, width, 50f, nameFont: BaseFont.HELVETICA, sizeFont: 10, align: Element.ALIGN_CENTER);
+               // pdf.BigTextLeftColumn(invoice.Total.DecimalToExtenso(), doc.Left + padding, doc.Top - 230, width, 50f, nameFont: BaseFont.HELVETICA, sizeFont: 10, align: Element.ALIGN_CENTER);
 
                 pdf.BigTextLeftColumn(string.Format(Labels.MESSAGE, Labels.LEGAL_NAME), doc.Left + padding, doc.Top - 275, width, 50f, nameFont: BaseFont.HELVETICA, sizeFont: 12);
 
