@@ -1,6 +1,8 @@
+using System.Globalization;
 using Invoice.Client.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +34,14 @@ namespace Invoice.Client
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationData dataContext)
         {
             dataContext.Database.Migrate();
+
+ var supportedCultures = new[] { new CultureInfo("pt-BR") };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(culture: "pt-BR", uiCulture: "pt-BR"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
 
             if(env.IsDevelopment())
             {
