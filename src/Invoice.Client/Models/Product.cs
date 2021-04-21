@@ -19,8 +19,6 @@ namespace Invoice.Client.Models
 
         [DisplayName("Valor Unitário")]
         [Required(ErrorMessage = "Informe a {0}")]
-        [DataType(DataType.Currency)]
-        [DisplayFormat(DataFormatString = "{0:C2}")]
         [RegularExpression(@"^(?=.)(\d{1,3}(.\d{3})*)?(\,\d+)?$", ErrorMessage = "escreva no formato 1.010,10")]
         public string Value { get; set; }
     }

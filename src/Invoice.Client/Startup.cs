@@ -35,7 +35,7 @@ namespace Invoice.Client
         {
             dataContext.Database.Migrate();
 
- var supportedCultures = new[] { new CultureInfo("pt-BR") };
+            var supportedCultures = new[] { new CultureInfo("pt-BR") };
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
                 DefaultRequestCulture = new RequestCulture(culture: "pt-BR", uiCulture: "pt-BR"),

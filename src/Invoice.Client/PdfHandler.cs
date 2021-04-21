@@ -98,7 +98,8 @@ namespace Invoice.Client
 
                 #region Bancary
 
-                pdf.Text($"Período do Serviço:", BaseFont.COURIER_BOLD, 10, aligneLeft, doc.Bottom + 335, align: Element.ALIGN_LEFT);
+                pdf.Text($"Período do Serviço:", BaseFont.COURIER_BOLD, 10, aligneLeft, doc.Bottom + 340, align: Element.ALIGN_LEFT);
+                pdf.Text($"{invoice.ServicePeriod}", BaseFont.COURIER_BOLD, 10, aligneLeft + 40, doc.Bottom + 330, align: Element.ALIGN_LEFT);
                 pdf.Text($"Dados do Banco", BaseFont.COURIER_BOLD, 10, aligneLeft, doc.Bottom + 320, align: Element.ALIGN_LEFT);
                 pdf.Text($"Banco: ITAU", BaseFont.COURIER_BOLD, 10, aligneLeft, doc.Bottom + 310, align: Element.ALIGN_LEFT);
                 pdf.Text($"Agência: 6385", BaseFont.COURIER_BOLD, 10, aligneLeft, doc.Bottom + 300, align: Element.ALIGN_LEFT);

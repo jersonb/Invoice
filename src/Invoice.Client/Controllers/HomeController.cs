@@ -2,10 +2,12 @@
 using Invoice.Client.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Net.Mime;
+using System.Threading.Tasks;
 
 namespace Invoice.Client.Controllers
 {
@@ -29,24 +31,41 @@ namespace Invoice.Client.Controllers
             return View();
         }
 
-        public IActionResult Print([FromForm] InvoiceModel invoice)
+        public async Task<IActionResult> Print([FromForm] InvoiceModel invoice)
         {
-            if(invoice is null)
+            try
             {
-                throw new ArgumentNullException(nameof(invoice));
+                if(invoice is null)
+                {
+                    throw new ArgumentNullException(nameof(invoice));
+                }
+
+                if(ModelState.IsValid)
+                {
+                    var path = _env.WebRootFileProvider.GetFileInfo("LOGO.jpg")?.PhysicalPath;
+
+                    return File(new PdfHandler(new Uri(path), invoice).PdfInMemoryStream.ToArray(), MediaTypeNames.Application.Pdf, $"{invoice.Client.Name}_{invoice.Number}.pdf", true);
+                }
+
+                return View(nameof(Create), invoice);
             }
-
-            _dbcontext.Invoices.Add(new InvoiceData { Invoice = invoice });
-            _dbcontext.SaveChangesAsync();
-
-            var path = _env.WebRootFileProvider.GetFileInfo("LOGO.jpg")?.PhysicalPath;
-
-            return File(new PdfHandler(new Uri(path), invoice).PdfInMemoryStream.ToArray(), MediaTypeNames.Application.Pdf, $"{invoice.Client.Name}_{invoice.Number}.pdf", true);
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                var entity = _dbcontext.Invoices.Add(new InvoiceData { Invoice = invoice });
+                await _dbcontext.SaveChangesAsync();
+                entity.State = EntityState.Detached;
+            }
         }
 
         public IActionResult Create()
         {
-            return View();
+            var invoice = new InvoiceModel();
+            invoice.AddProduct(new Product());
+            return View(invoice);
         }
 
         public IActionResult Privacy()
@@ -58,6 +77,14 @@ namespace Invoice.Client.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProduct([Bind("Products")] InvoiceModel invoice)
+        {
+            invoice.AddProduct(new Product());
+            await Task.CompletedTask;
+            return PartialView("Products", invoice);
         }
     }
 }

@@ -52,11 +52,20 @@ namespace Invoice.Client.Models
         [DisplayName("Cliente")]
         public Client Client { get; set; }
 
+        [DisplayName("Período do Serviço")]
+        [MaxLength(30,ErrorMessage ="máximo de {1} para {0}")]
+        public string ServicePeriod { get; set; }
+
         [DisplayName("Produtos")]
         public List<Product> Products { get; private set; }
 
         public void AddProduct(Product product)
-            => Products.Add(product);
+        {
+            if(string.IsNullOrEmpty(product.Description))
+            {
+                Products.Add(product);
+            }
+        }
 
         public void AddProduct(List<Product> products)
            => Products.AddRange(products);
