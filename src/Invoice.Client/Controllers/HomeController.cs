@@ -14,14 +14,10 @@ namespace Invoice.Client.Controllers
     public class HomeController : Controller
     {
         private readonly IWebHostEnvironment _env;
-
-        private readonly ILogger<HomeController> _logger;
-
         private readonly ApplicationData _dbcontext;
 
-        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment env, ApplicationData dbcontext)
+        public HomeController(IWebHostEnvironment env, ApplicationData dbcontext)
         {
-            _logger = logger;
             _env = env;
             _dbcontext = dbcontext;
         }
@@ -66,11 +62,6 @@ namespace Invoice.Client.Controllers
             var invoice = new InvoiceModel();
             invoice.AddProduct(new Product());
             return View(invoice);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
