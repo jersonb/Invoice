@@ -1,0 +1,93 @@
+﻿@model Invoice.Client.Models.Customer
+
+@{
+    ViewData["Title"] = "Cliente";
+}
+
+<h1>Create</h1>
+
+<h4>Novo Cliente</h4>
+<hr />
+<form asp-action="Create">
+    <div class="row">
+        <div class="col-sm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input hidden asp-for="Id" />
+            <div class="col-md-12 col-lg-12 col-xl-12">
+                <h4><label class="control-label">Cliente</label></h4>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <label class="control-label">Dados</label>
+                    </div>
+                    <div class="card-body row">
+                        <div class="form-group col-md-4 col-lg-4 col-xl-4">
+                            <label asp-for="Name" class="control-label"></label>
+                            <input asp-for="Name" class="form-control " />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4 col-lg-4 col-xl-4">
+                            <label asp-for="LegalNumber" class="control-label"></label>
+                            <input asp-for="LegalNumber" class="form-control cpfcnpj" />
+                            <span asp-validation-for="LegalNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4 col-lg-4 col-xl-4">
+                            <label asp-for="RegionalLegalNumber" class="control-label"></label>
+                            <input asp-for="RegionalLegalNumber" class="form-control " />
+                            <span asp-validation-for="RegionalLegalNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <label asp-for="Address" class="control-label"></label>
+                    </div>
+                    <div class="card-body row">
+                        <div class="form-group col-md-8 col-lg-8 col-xl-8">
+                            <label asp-for="Address.Street" class="control-label"></label>
+                            <input asp-for="Address.Street" class="form-control " />
+                            <span asp-validation-for="Address.Street" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4 col-lg-4 col-xl-4">
+                            <label asp-for="Address.Number" class="control-label"></label>
+                            <input asp-for="Address.Number" class="form-control " />
+                            <span asp-validation-for="Address.Number" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4 col-lg-4 col-xl-4">
+                            <label asp-for="Address.Region" class="control-label"></label>
+                            <input asp-for="Address.Region" class="form-control " />
+                            <span asp-validation-for="Address.Region" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4 col-lg-4 col-xl-4">
+                            <label asp-for="Address.State" class="control-label"></label>
+                            <input asp-for="Address.State" class="form-control " />
+                            <span asp-validation-for="Address.State" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-4 col-lg-4 col-xl-4">
+                            <label asp-for="Address.ZipCode" class="control-label"></label>
+                            <input asp-for="Address.ZipCode" class="form-control " />
+                            <span asp-validation-for="Address.ZipCode" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-12 col-xl-12">
+                    <div class="row justify-content-between rigth">
+                        <div class="col-8 col-sm-8 ">
+                        </div>
+
+                        <div class="col-4 col-sm-4 ">
+                            <input class="btn btn-primary" type="submit" value="Salvar" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

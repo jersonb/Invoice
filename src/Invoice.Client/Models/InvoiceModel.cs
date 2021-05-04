@@ -11,7 +11,7 @@ namespace Invoice.Client.Models
         public InvoiceModel()
         {
             Products = new List<Product>();
-            Client = new Client();
+            Client = new Customer();
             CreateId();
         }
 
@@ -50,7 +50,7 @@ namespace Invoice.Client.Models
         public DateTime? Date { get; set; }
 
         [DisplayName("Cliente")]
-        public Client Client { get; set; }
+        public Customer Client { get; set; }
 
         [DisplayName("Período do Serviço")]
         [MaxLength(30,ErrorMessage ="máximo de {1} para {0}")]

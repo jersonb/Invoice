@@ -3,12 +3,15 @@ using System.ComponentModel;
 
 namespace Invoice.Client.Models
 {
-    public class Client
+    public class Customer
     {
-        public Client()
+        public Customer()
         {
             Address = new Address();
         }
+
+        [Key]
+        public int Id { get; set; }
 
         [DisplayName("Nome")]
         [Required(ErrorMessage = "Informe {0}")]
@@ -22,5 +25,6 @@ namespace Invoice.Client.Models
 
         [DisplayName("Endereço")]
         public Address Address { get; set; }
+
     }
 }
