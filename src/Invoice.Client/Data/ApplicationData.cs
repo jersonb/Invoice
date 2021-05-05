@@ -12,8 +12,6 @@ namespace Invoice.Client.Data
 
         public DbSet<InvoiceData> Invoices { get; set; }
 
-        public DbSet<Customer> Customer { get; set; }
-
-        public DbSet<Address> Addresses { get; set; }
+        public DbSet<CustomerData> Customers { get; set; }
     }
 }

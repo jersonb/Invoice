@@ -3,15 +3,17 @@ using Invoice.Client.Data;
 using Invoice.Client.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Invoice.Client.Migrations
 {
     [DbContext(typeof(ApplicationData))]
-    partial class ApplicationDataModelSnapshot : ModelSnapshot
+    [Migration("20210505182709_Postgres_Customers")]
+    partial class Postgres_Customers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

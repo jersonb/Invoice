@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Invoice.Client.Models.Customer>
+﻿@model IEnumerable<Invoice.Client.Models.CustomerViewModel>
 
 @{
     ViewData["Title"] = "Cliente";
@@ -34,9 +34,9 @@
                 </td>
                 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Detalhar</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+                    @*<a asp-action="ShowView" asp-route-id="@item.FindId" asp-route-view="Edit">Editar</a> |*@
+                    <a asp-action="ShowView" asp-route-id="@item.FindId" asp-route-view="Details">Detalhar</a> |
+                    <a asp-action="ShowView" asp-route-id="@item.FindId" asp-route-view="Delete">Deletar</a>
                 </td>
             </tr>
         }

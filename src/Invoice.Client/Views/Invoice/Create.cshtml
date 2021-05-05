@@ -1,7 +1,7 @@
-﻿@model Invoice.Client.Models.CreateInvoiceViewModel
+﻿@model Invoice.Client.Models.InvoiceViewModel
 
 @{
-    ViewData["Title"] = "Gerar Fatura";
+    ViewData["Title"] = "Fatura";
 }
 
 <h1>Gerar Fatura</h1>
@@ -11,63 +11,58 @@
         <div class="col-sm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="col-md-12 col-lg-12 col-xl-12">
+                <h4>Fatura</h4>
                 <div class="card mb-3">
                     <div class="card-header">
-                        <label class="control-label">Cliente</label>
+                        <label asp-for="SelectedItem" class="control-label"></label>
                     </div>
                     <div class="card-body row">
-                        <div class="form-group col-md-4 col-lg-4 col-xl-4">
-                            <select asp-for="Invoice.Client" asp-items="@Model.Customers" >
+                        <div class="form-group col-md-12 col-lg-12 col-xl-12">
+                            <select class="form-control" asp-for="SelectedItem" asp-items="@ViewBag.Items">
                                 <option value="@null">Selecione</option>
                             </select>
-                            <label asp-for="Client.Name" class="control-label"></label>
-                            <input asp-for="Client.Name" class="form-control " />
-                            <span asp-validation-for="Client.Name" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-12 col-lg-12 col-xl-12">
-                <h4>Fatura</h4>
                 <div class="card mb-3">
                     <div class="card-header">
                         <label class="control-label">Dados</label>
                     </div>
                     <div class="card-body row">
                         <div class="form-group col-md-4 col-lg-4 col-xl-4">
-                            <label asp-for="Invoice.Number" class="control-label"></label>
-                            <input asp-for="Invoice.Number" type="number" min="0" class="form-control " />
-                            <span asp-validation-for="Invoice.Number" class="text-danger"></span>
+                            <label asp-for="Number" class="control-label"></label>
+                            <input asp-for="Number" type="number" min="0" class="form-control " />
+                            <span asp-validation-for="Number" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4 col-lg-4 col-xl-4">
-                            <label asp-for="Invoice.Commitment" class="control-label"></label>
-                            <input asp-for="Invoice.Commitment" class="form-control " />
-                            <span asp-validation-for="Invoice.Commitment" class="text-danger"></span>
+                            <label asp-for="Commitment" class="control-label"></label>
+                            <input asp-for="Commitment" class="form-control " />
+                            <span asp-validation-for="Commitment" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4 col-lg-4 col-xl-4">
-                            <label asp-for="Invoice.Date" class="control-label"></label>
-                            <input asp-for="Invoice.Date" type="date" class="form-control " />
-                            <span asp-validation-for="Invoice.Date" class="text-danger"></span>
+                            <label asp-for="Date" class="control-label"></label>
+                            <input asp-for="Date" type="date" class="form-control " />
+                            <span asp-validation-for="Date" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-4 col-lg-4 col-xl-4">
-                            <label asp-for="Invoice.ServicePeriod" class="control-label"></label>
-                            <input asp-for="Invoice.ServicePeriod" type="text" class="form-control "/>
-                            <span asp-validation-for="Invoice.ServicePeriod" class="text-danger"></span>
+                            <label asp-for="ServicePeriod" class="control-label"></label>
+                            <input asp-for="ServicePeriod" type="text" class="form-control " />
+                            <span asp-validation-for="ServicePeriod" class="text-danger"></span>
                         </div>
                         <div class="form-group col-md-12 col-lg-12 col-xl-12">
-                            <label asp-for="Invoice.Observation" class="control-label"></label>
-                            <textarea asp-for="Invoice.Observation" type="text" class="form-control " rows="2"></textarea>
-                            <span asp-validation-for="Invoice.Observation" class="text-danger"></span>
+                            <label asp-for="Observation" class="control-label"></label>
+                            <textarea asp-for="Observation" type="text" class="form-control " rows="2"></textarea>
+                            <span asp-validation-for="Observation" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="card mb-3">
                     <div class="card-header">
-                        <label asp-for="Invoice.Products" class="control-label"></label>
+                        <label asp-for="Products" class="control-label"></label>
                     </div>
                     <div class="card-body">
                         <div id="productsContainer">
-                            @Html.EditorFor(model => model.Invoice.Products)
+                            @Html.EditorFor(model => model.Products)
                         </div>
                     </div>
                 </div>

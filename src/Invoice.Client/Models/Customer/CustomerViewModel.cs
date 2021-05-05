@@ -1,17 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Invoice.Client.Models
 {
-    public class Customer
+    public class CustomerViewModel
     {
-        public Customer()
-        {
-            Address = new Address();
-        }
-
-        [Key]
-        public int Id { get; set; }
+        public string FindId { get; set; }
 
         [DisplayName("Nome")]
         [Required(ErrorMessage = "Informe {0}")]
@@ -20,11 +14,11 @@ namespace Invoice.Client.Models
         [DisplayName("CNPJ")]
         [Required(ErrorMessage = "Informe {0}")]
         public string LegalNumber { get; set; }
+
         [DisplayName("Inscrição Municipal")]
         public string RegionalLegalNumber { get; set; }
 
         [DisplayName("Endereço")]
         public Address Address { get; set; }
-
     }
 }

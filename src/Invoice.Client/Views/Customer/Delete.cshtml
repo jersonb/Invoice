@@ -1,4 +1,4 @@
-﻿@model Invoice.Client.Models.Customer
+﻿@model Invoice.Client.Models.CustomerViewModel
 
 @{
     ViewData["Title"] = "Cliente";
@@ -20,7 +20,7 @@
     </dl>
 
     <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="FindId" />
         <input type="submit" value="Deletar" class="btn btn-danger" /> |
         <a asp-action="Index">Voltar</a>
     </form>

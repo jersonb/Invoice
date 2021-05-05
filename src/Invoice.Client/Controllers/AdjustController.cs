@@ -1,4 +1,5 @@
 ﻿using Invoice.Client.Data;
+using Invoice.Client.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -19,8 +20,8 @@ namespace Invoice.Client.Controllers
         {
             var invoices = await _context.Invoices
                                           .ToListAsync();
-            var customers = invoices.Select(x => x.Invoice.Client);
-            _context.Customer.AddRange(customers);
+            var customers = invoices.Select(x => new CustomerData { Customer = x.Invoice.Client });
+            _context.Customers.AddRange(customers);
             await _context.SaveChangesAsync();
             return RedirectToActionPermanent("Index","Customer");
         }

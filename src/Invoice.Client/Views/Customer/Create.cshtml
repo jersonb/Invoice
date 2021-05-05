@@ -1,18 +1,18 @@
-﻿@model Invoice.Client.Models.Customer
+﻿@model Invoice.Client.Models.CustomerViewModel
 
 @{
     ViewData["Title"] = "Cliente";
 }
 
-<h1>Create</h1>
+<h1>Cadastrar</h1>
 
-<h4>Novo Cliente</h4>
+<h4>Cliente</h4>
 <hr />
 <form asp-action="Create">
     <div class="row">
         <div class="col-sm">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input hidden asp-for="Id" />
+            <input hidden asp-for="FindId" />
             <div class="col-md-12 col-lg-12 col-xl-12">
                 <h4><label class="control-label">Cliente</label></h4>
                 <div class="card mb-3">

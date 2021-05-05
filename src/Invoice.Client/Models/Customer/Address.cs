@@ -5,9 +5,6 @@ namespace Invoice.Client.Models
 {
     public class Address
     {
-        [Key]
-        public int Id { get; set; }
-
         [DisplayName("Logradouro")]
         [Required(ErrorMessage = "Informe {0}")]
         public string Street { get; set; }

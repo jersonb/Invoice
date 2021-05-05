@@ -12,9 +12,9 @@ namespace Invoice.Client
         private readonly InvoiceModel _invoice;
         public Uri Logo { get; }
 
-        public PdfHandler(Uri urlGitHub, InvoiceModel invoice)
+        public PdfHandler(Uri logo, InvoiceModel invoice)
         {
-            Logo = urlGitHub;
+            Logo = logo;
             _invoice = invoice;
         }
 
@@ -44,7 +44,7 @@ namespace Invoice.Client
 
                 var collumnAligne = doc.Left + (width * 0.65f) + (padding * 2);
                 pdf.Text(Labels.DESCRIPTION.ToUpper(), nameFont: BaseFont.HELVETICA_BOLD, sizeFont: 8, positionX: width * 0.9f, positionY: doc.Top - (padding * 2.5f), align: Element.ALIGN_CENTER);
-                pdf.Text($"Emissão Data: {invoice.Date ?? DateTime.Now:dd/MM/yyyy}", nameFont: BaseFont.HELVETICA, sizeFont: 8, positionX: collumnAligne, doc.Top - (padding * 5), align: Element.ALIGN_LEFT);
+                pdf.Text($"Emissão Data: {invoice.Date:dd/MM/yyyy}", nameFont: BaseFont.HELVETICA, sizeFont: 8, positionX: collumnAligne, doc.Top - (padding * 5), align: Element.ALIGN_LEFT);
                 pdf.Text($"Insc. Municipal N°: {Labels.LEGAL_REGIONAL_NUMBER}", nameFont: BaseFont.HELVETICA, sizeFont: 8, positionX: collumnAligne, doc.Top - (padding * 7), align: Element.ALIGN_LEFT);
                 pdf.Text($"Natureza da Operação: Locação de Veículos", nameFont: BaseFont.HELVETICA, sizeFont: 8, positionX: collumnAligne, doc.Top - (padding * 9), align: Element.ALIGN_LEFT);
                 pdf.Text($"Série: ÚNICA", nameFont: BaseFont.HELVETICA, sizeFont: 8, positionX: collumnAligne, doc.Top - (padding * 11), align: Element.ALIGN_LEFT);
