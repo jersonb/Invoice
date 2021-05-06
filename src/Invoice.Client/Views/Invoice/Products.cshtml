@@ -1,2 +1,11 @@
 ﻿@model Invoice.Client.Models.InvoiceViewModel
 @Html.EditorFor(model => model.Products)
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.money').inputmask('currency', {
+            'groupSeparator': '.',
+            'radixPoint': ",",
+        });
+    });
+</script>

@@ -2,7 +2,6 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-$(".money").inputmask('9{0,20}9,99', { 'numericInput': true });
 
 $('.cpfcnpj').inputmask({
     mask: ['999.999.999-99', '99.999.999/9999-99'],
@@ -14,8 +13,8 @@ $(function () {
         $.ajax({
             async: true,
             data: $("#form").serialize(),
-            type: "POST",
-            url: '/Home/AddProduct',
+            type: "GET",
+            url: '/Invoice/AddProduct',
             success: function (partialView) {
                 $('#productsContainer').html(partialView);
             }

@@ -14,13 +14,13 @@ namespace Invoice.Client.Models
 
         public string FindId { get; set; }
 
-        [DisplayName("Cliente")]
-        [Required(ErrorMessage = "Informe {0}")]
-        public string SelectedItem { get; set; }
-
         [DisplayName("Número")]
         [Required(ErrorMessage = "Informe {0}")]
         public string Number { get; set; }
+
+        [DisplayName("Cliente")]
+        [Required(ErrorMessage = "Informe {0}")]
+        public string SelectedItem { get; set; }
 
         [DisplayName("Empenho")]
         public string Commitment { get; set; }

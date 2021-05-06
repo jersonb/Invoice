@@ -23,9 +23,21 @@ namespace Invoice.Client.Controllers
             _dbcontext = dbcontext;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var viewModel = await _dbcontext.Invoices
+                                            .AsNoTracking()
+                                            .Where(x => x.Invoice.IsActive)
+                                            .Select(x => new InvoiceIndexViewModel
+                                            {
+                                                FindId = x.Invoice.FindId,
+                                                Number = x.Invoice.Number,
+                                                Date = x.Invoice.Date,
+                                                Customer = $"{x.Invoice.Client.Name} - {x.Invoice.Client.LegalNumber}",
+                                                Total = x.Invoice.Total
+                                            })
+                                            .ToListAsync();
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Print([FromForm] InvoiceViewModel viewModel)
@@ -56,11 +68,17 @@ namespace Invoice.Client.Controllers
             {
                 if(invoice != null)
                 {
-                    var entity = _dbcontext.Invoices.Add(new InvoiceData { Invoice = invoice });
-                    await _dbcontext.SaveChangesAsync();
-                    entity.State = EntityState.Detached;
+                    await Save(invoice);
                 }
             }
+        }
+
+        private async Task Save(InvoiceModel invoice)
+        {
+            invoice.CreateId();
+            var entity = _dbcontext.Invoices.Add(new InvoiceData { Invoice = invoice });
+            await _dbcontext.SaveChangesAsync();
+            entity.State = EntityState.Detached;
         }
 
         private IActionResult Print(InvoiceModel invoice)
@@ -78,6 +96,7 @@ namespace Invoice.Client.Controllers
         public async Task<IActionResult> Create()
         {
             var model = new InvoiceViewModel();
+            model.Products.Add(new Product { Quantity = 1, Value = "0,00" });
 
             var customers = await _dbcontext.Customers
                         .AsNoTracking()
@@ -90,11 +109,10 @@ namespace Invoice.Client.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddProduct([Bind("Products")] InvoiceModel invoice)
+        
+        public IActionResult AddProduct([Bind("Products")] InvoiceViewModel invoice)
         {
-            invoice.AddProduct(new Product());
-            await Task.CompletedTask;
+            invoice.Products.Add(new Product { Quantity = 1, Value = "0,00" });
             return PartialView("Products", invoice);
         }
     }

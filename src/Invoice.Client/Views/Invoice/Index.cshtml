@@ -1,3 +1,49 @@
-﻿@{
+﻿@model IEnumerable<Invoice.Client.Models.InvoiceIndexViewModel>
+
+@{
     ViewData["Title"] = "Fatura";
 }
+
+<h1>Lista de Faturas</h1>
+
+<p>
+    <a asp-action="Create">Cadastrar Nova Fatura</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
+                    <a asp-action="ShowView" asp-route-id="@item.FindId" asp-route-view="Details">Detalhar</a> |
+                    <a asp-action="ShowView" asp-route-id="@item.FindId" asp-route-view="Delete">Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
