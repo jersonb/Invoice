@@ -1,0 +1,11 @@
+﻿@model Invoice.Client.Models.InvoiceViewModel
+
+@{
+    ViewData["Title"] = "Fatura";
+}
+
+<partial name="Create" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

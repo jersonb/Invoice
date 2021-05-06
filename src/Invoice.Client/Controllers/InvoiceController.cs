@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Invoice.Client.Controllers
     {
         private readonly IWebHostEnvironment _env;
         private readonly ApplicationData _dbcontext;
+        private EntityEntry<InvoiceData> _entity;
 
         public InvoiceController(IWebHostEnvironment env, ApplicationData dbcontext)
         {
@@ -68,17 +70,66 @@ namespace Invoice.Client.Controllers
             {
                 if(invoice != null)
                 {
-                    await Save(invoice);
+                    await AddOrUpdate(invoice);
                 }
             }
+        }       
+
+        public async Task<IActionResult> Create()
+        {
+            var model = new InvoiceViewModel();
+            model.Products.Add(new Product { Quantity = 1, Value = "0,00" });
+            await GetViewBagItems();
+
+            return View(model);
         }
 
-        private async Task Save(InvoiceModel invoice)
+        public IActionResult AddProduct([Bind("Products")] InvoiceViewModel invoice)
         {
-            invoice.CreateId();
-            var entity = _dbcontext.Invoices.Add(new InvoiceData { Invoice = invoice });
+            invoice.Products.Add(new Product { Quantity = 1, Value = "0,00" });
+            return PartialView("Products", invoice);
+        }
+
+
+        public async Task<IActionResult> ShowView(string id, string view)
+        {
+
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var model = await Find(id);
+           
+            await GetViewBagItems();
+
+            if(model == null)
+            {
+                return NotFound();
+            }
+
+            return View(view, model);
+        }
+
+        private async Task AddOrUpdate(InvoiceModel invoice)
+        {
+            if(string.IsNullOrEmpty(invoice.FindId))
+            {
+                invoice.CreateId();
+                _entity = _dbcontext.Invoices.Add(new InvoiceData { Invoice = invoice });
+            }
+            else
+            {
+                invoice.IsUpdate(invoice.Created);
+                var dataObject = await _dbcontext.Invoices
+                                                 .AsNoTracking()
+                                                 .SingleOrDefaultAsync(x => x.Invoice.FindId == invoice.FindId);
+
+                dataObject.Invoice = invoice;
+                _entity = _dbcontext.Invoices.Update(dataObject);
+            }
             await _dbcontext.SaveChangesAsync();
-            entity.State = EntityState.Detached;
+            _entity.State = EntityState.Detached;
         }
 
         private IActionResult Print(InvoiceModel invoice)
@@ -93,27 +144,32 @@ namespace Invoice.Client.Controllers
             return File(new PdfHandler(new Uri(path), invoice).PdfInMemoryStream.ToArray(), MediaTypeNames.Application.Pdf, $"{invoice.Client.Name}_{invoice.Number}.pdf", true);
         }
 
-        public async Task<IActionResult> Create()
+        private async Task<InvoiceViewModel> Find(string id)
         {
-            var model = new InvoiceViewModel();
-            model.Products.Add(new Product { Quantity = 1, Value = "0,00" });
+            var dataObject = await _dbcontext.Invoices
+                                           .SingleOrDefaultAsync(m => m.Invoice.FindId == id && m.Invoice.IsActive);
+            var model = DataToModel(dataObject);
 
-            var customers = await _dbcontext.Customers
-                        .AsNoTracking()
-                        .Where(x => x.Customer.IsActive)
-                        .Select(x => new SelectListItem { Text = x.Customer.Name, Value = x.Customer.FindId })
-                        .ToListAsync();
-
-            ViewBag.Items = customers;
-
-            return View(model);
+            return model;
         }
 
-        
-        public IActionResult AddProduct([Bind("Products")] InvoiceViewModel invoice)
+        private static InvoiceViewModel DataToModel(InvoiceData dataObject)
         {
-            invoice.Products.Add(new Product { Quantity = 1, Value = "0,00" });
-            return PartialView("Products", invoice);
+            var json = JsonConvert.SerializeObject(dataObject.Invoice);
+            var model = JsonConvert.DeserializeObject<InvoiceViewModel>(json);
+            model.SelectedItem = dataObject.Invoice.Client.FindId;
+            return model;
+        }
+
+        private async Task GetViewBagItems()
+        {
+            var customers = await _dbcontext.Customers
+                                    .AsNoTracking()
+                                    .Where(x => x.Customer.IsActive)
+                                    .Select(x => new SelectListItem { Text = x.Customer.Name, Value = x.Customer.FindId })
+                                    .ToListAsync();
+
+            ViewBag.Items = customers;
         }
     }
 }

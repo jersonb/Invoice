@@ -4,7 +4,7 @@
     ViewData["Title"] = "Fatura";
 }
 
-<h1>Gerar Fatura</h1>
+<h1>Detalhamento Fatura</h1>
 <hr />
 <form asp-action="Print" id="form">
     <div class="row">
@@ -19,8 +19,7 @@
                     </div>
                     <div class="card-body row">
                         <div class="form-group col-md-12 col-lg-12 col-xl-12">
-                            <select class="form-control" asp-for="SelectedItem" asp-items="@ViewBag.Items">
-                                <option value="@null">Selecione</option>
+                            <select disabled class="form-control" asp-for="SelectedItem" asp-items="@ViewBag.Items">
                             </select>
                         </div>
                     </div>
@@ -32,28 +31,23 @@
                     <div class="card-body row">
                         <div class="form-group col-md-4 col-lg-4 col-xl-4">
                             <label asp-for="Number" class="control-label"></label>
-                            <input asp-for="Number" type="number" min="0" class="form-control " />
-                            <span asp-validation-for="Number" class="text-danger"></span>
+                            <input disabled asp-for="Number" type="number" min="0" class="form-control " />
                         </div>
                         <div class="form-group col-md-4 col-lg-4 col-xl-4">
                             <label asp-for="Commitment" class="control-label"></label>
-                            <input asp-for="Commitment" class="form-control " />
-                            <span asp-validation-for="Commitment" class="text-danger"></span>
+                            <input disabled asp-for="Commitment" class="form-control " />
                         </div>
                         <div class="form-group col-md-4 col-lg-4 col-xl-4">
                             <label asp-for="Date" class="control-label"></label>
-                            <input asp-for="Date" type="date" class="form-control " />
-                            <span asp-validation-for="Date" class="text-danger"></span>
+                            <input disabled asp-for="Date" type="date" class="form-control " />
                         </div>
                         <div class="form-group col-md-4 col-lg-4 col-xl-4">
                             <label asp-for="ServicePeriod" class="control-label"></label>
-                            <input asp-for="ServicePeriod" type="text" class="form-control " />
-                            <span asp-validation-for="ServicePeriod" class="text-danger"></span>
+                            <input  asp-for="ServicePeriod" type="text" class="form-control " />
                         </div>
                         <div class="form-group col-md-12 col-lg-12 col-xl-12">
                             <label asp-for="Observation" class="control-label"></label>
-                            <textarea asp-for="Observation" type="text" class="form-control " rows="2"></textarea>
-                            <span asp-validation-for="Observation" class="text-danger"></span>
+                            <textarea  asp-for="Observation" type="text" class="form-control " rows="2"></textarea>
                         </div>
                     </div>
                 </div>
@@ -63,7 +57,7 @@
                     </div>
                     <div class="card-body">
                         <div id="productsContainer">
-                            @Html.EditorFor(model => model.Products)
+                            @Html.EditorFor(model => model.Products, new { disabled = true })
                         </div>
                     </div>
                 </div>
@@ -71,9 +65,6 @@
             <div class="col-md-12 col-lg-12 col-xl-12">
                 <div class="row justify-content-between rigth">
                     <div class="col-4 col-sm-4 ">
-                    </div>
-                    <div class="col-4 col-sm-4">
-                        <input type="button" id="btnAdd" value="Novo Item" class="btn btn-outline-info" />
                     </div>
                     <div class="col-4 col-sm-4 ">
                         <input class="btn btn-primary" type="submit" value="Gerar" />
@@ -83,6 +74,3 @@
         </div>
     </div>
 </form>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
