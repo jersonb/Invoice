@@ -40,8 +40,8 @@
                     @Html.DisplayFor(modelItem => item.Total)
                 </td>
                 <td>
+                    <a asp-action="ShowView" asp-route-id="@item.FindId" asp-route-view="LikeModel">Usar como Modelo</a> |
                     <a asp-action="ShowView" asp-route-id="@item.FindId" asp-route-view="Edit">Editar</a> |
-
                     <a asp-action="ShowView" asp-route-id="@item.FindId" asp-route-view="Details">Detalhar</a> |
                     <a asp-action="ShowView" asp-route-id="@item.FindId" asp-route-view="Delete">Deletar</a>
                 </td>

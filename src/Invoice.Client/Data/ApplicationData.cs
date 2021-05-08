@@ -11,7 +11,7 @@ namespace Invoice.Client.Data
         }
 
         public DbSet<InvoiceData> Invoices { get; set; }
-
         public DbSet<CustomerData> Customers { get; set; }
+        public DbSet<LastNumberData> LastNumber { get; set; }
     }
 }

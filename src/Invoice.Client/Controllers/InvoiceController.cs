@@ -30,6 +30,8 @@ namespace Invoice.Client.Controllers
             var viewModel = await _dbcontext.Invoices
                                             .AsNoTracking()
                                             .Where(x => x.Invoice.IsActive)
+                                            .OrderByDescending(x => x.Invoice.Updated)
+                                            .OrderBy(x => x.Invoice.Number)
                                             .Select(x => new InvoiceIndexViewModel
                                             {
                                                 FindId = x.Invoice.FindId,
@@ -47,7 +49,7 @@ namespace Invoice.Client.Controllers
             InvoiceModel invoice = null;
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     var customer = await _dbcontext.Customers
                                    .SingleOrDefaultAsync(x => x.Customer.FindId == viewModel.SelectedItem);
@@ -62,23 +64,28 @@ namespace Invoice.Client.Controllers
 
                 return View(nameof(Create), viewModel);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
             finally
             {
-                if(invoice != null)
+                if (invoice != null)
                 {
                     await AddOrUpdate(invoice);
                 }
             }
-        }       
+        }
 
         public async Task<IActionResult> Create()
         {
+            var lastNumberData = await _dbcontext.LastNumber.FindAsync(1);
+            var number = lastNumberData.LastNumber + 1;
+
             var model = new InvoiceViewModel();
+            model.Number = number.ToString();
             model.Products.Add(new Product { Quantity = 1, Value = "0,00" });
+
             await GetViewBagItems();
 
             return View(model);
@@ -94,29 +101,59 @@ namespace Invoice.Client.Controllers
         public async Task<IActionResult> ShowView(string id, string view)
         {
 
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var model = await Find(id);
-           
+
             await GetViewBagItems();
 
-            if(model == null)
+            if (model == null)
             {
                 return NotFound();
+            }
+
+            if (view.Equals("LikeModel"))
+            {
+                var lastNumberData = await _dbcontext.LastNumber.FindAsync(1);
+                var number = lastNumberData.LastNumber;
+                model.Number = number++.ToString();
             }
 
             return View(view, model);
         }
 
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string FindId)
+        {
+            var invoice = await _dbcontext.Invoices
+                                       .FirstOrDefaultAsync(x => x.Invoice.FindId == FindId);
+
+            invoice.Invoice.Inactivate(invoice.Invoice.Created);
+
+            _entity = _dbcontext.Invoices.Update(invoice);
+
+            await _dbcontext.SaveChangesAsync();
+            _entity.State = EntityState.Detached;
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private async Task AddOrUpdate(InvoiceModel invoice)
         {
-            if(string.IsNullOrEmpty(invoice.FindId))
+            if (string.IsNullOrEmpty(invoice.FindId))
             {
                 invoice.CreateId();
                 _entity = _dbcontext.Invoices.Add(new InvoiceData { Invoice = invoice });
+
+                var lastNumber = await _dbcontext.LastNumber.FindAsync(1);
+                if (int.TryParse(invoice.Number, out int number) && number > lastNumber.LastNumber)
+                {
+                    _dbcontext.LastNumber.Update(new LastNumberData { Id = 1, LastNumber = number });
+                }
             }
             else
             {
@@ -134,7 +171,7 @@ namespace Invoice.Client.Controllers
 
         private IActionResult Print(InvoiceModel invoice)
         {
-            if(invoice is null)
+            if (invoice is null)
             {
                 throw new InvalidOperationException("Fatura em branco! Não pode ser gerada!");
             }
