@@ -118,8 +118,8 @@ namespace Invoice.Client.Controllers
             if (view.Equals("LikeModel"))
             {
                 var lastNumberData = await _dbcontext.LastNumber.FindAsync(1);
-                var number = lastNumberData.LastNumber;
-                model.Number = number++.ToString();
+                var number = lastNumberData.LastNumber + 1;
+                model.Number = number.ToString();
             }
 
             return View(view, model);
