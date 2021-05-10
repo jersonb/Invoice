@@ -1,5 +1,6 @@
 ﻿using Invoice.Client.Data;
 using Invoice.Client.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Invoice.Client.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
         private readonly ApplicationData _context;

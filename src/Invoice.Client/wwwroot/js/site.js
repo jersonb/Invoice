@@ -7,6 +7,7 @@ $('.cpfcnpj').inputmask({
     mask: ['999.999.999-99', '99.999.999/9999-99'],
     keepStatic: true
 });
+
 $('.money').inputmask('currency', {
     'groupSeparator': '.',
     'radixPoint': ",",
@@ -26,13 +27,17 @@ $(function () {
     });
 })
 
-function DisableForm(isDisable){
-    if (isDisable) {
-        $("#form input").prop("disabled", true);
-        $("#form select").prop("disabled", true);
-        $("#form textarea").prop("disabled", true);
-        $("#form button").prop("hidden", true);
-        $("#form input:button").prop("hidden", true);
-        $('h1').text('Detalhamento de Fatura');
-    }
+function DisableForm() {
+    $("#form input").prop("disabled", true);
+    $("#form input").prop("disabled", true);
+    $("#form select").prop("disabled", true);
+    $("#form textarea").prop("disabled", true);
+    $("#form button").prop("hidden", true);
+    $("#form input:button").prop("hidden", true);
+    $("#form input:submit").prop("hidden", true);
+    $('h1').text('Detalhamento de Fatura');
+}
+
+function EditMode() {
+    $('h1').text('Editar Fatura');
 }

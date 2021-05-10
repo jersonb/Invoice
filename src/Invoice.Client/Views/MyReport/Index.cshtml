@@ -1,0 +1,35 @@
+﻿@model Invoice.Client.Models.ReportViewModel
+
+@{
+    ViewData["Title"] = "Relatório";
+}
+
+<h1>Relatório</h1>
+
+<h4>Gerar Relatório</h4>
+<hr />
+<form asp-action="Create">
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-4 col-lg-4 col-xl-4">
+            <label asp-for="Initial" class="control-label"></label>
+            <input type="date" asp-for="Initial" class="form-control " />
+            <span asp-validation-for="Initial" class="text-danger"></span>
+            <span class="text-danger">@ViewBag.Message</span>
+        </div>
+        <div class="form-group col-md-4 col-lg-4 col-xl-4">
+            <label asp-for="Final" class="control-label"></label>
+            <input type="date" asp-for="Final" class="form-control " />
+            <span asp-validation-for="Final" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-12 col-xl-12">
+        <div class="row justify-content-between rigth">
+            <div class="col-8 col-sm-8 ">
+            </div>
+            <div class="col-4 col-sm-4 ">
+                <input class="btn btn-primary" type="submit" value="Gerar" />
+            </div>
+        </div>
+    </div>
+</form>

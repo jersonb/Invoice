@@ -1,5 +1,6 @@
 ﻿using Invoice.Client.Data;
 using Invoice.Client.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Invoice.Client.Controllers
 {
+    [Authorize]
     public class InvoiceController : Controller
     {
         private readonly IWebHostEnvironment _env;
@@ -31,7 +33,7 @@ namespace Invoice.Client.Controllers
                                             .AsNoTracking()
                                             .Where(x => x.Invoice.IsActive)
                                             .OrderByDescending(x => x.Invoice.Updated)
-                                            .OrderBy(x => x.Invoice.Number)
+                                            .ThenBy(x => x.Invoice.Number)
                                             .Select(x => new InvoiceIndexViewModel
                                             {
                                                 FindId = x.Invoice.FindId,
@@ -44,6 +46,8 @@ namespace Invoice.Client.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Print([FromForm] InvoiceViewModel viewModel)
         {
             InvoiceModel invoice = null;
@@ -82,8 +86,11 @@ namespace Invoice.Client.Controllers
             var lastNumberData = await _dbcontext.LastNumber.FindAsync(1);
             var number = lastNumberData.LastNumber + 1;
 
-            var model = new InvoiceViewModel();
-            model.Number = number.ToString();
+            var model = new InvoiceViewModel
+            {
+                Number = number.ToString()
+            };
+
             model.Products.Add(new Product { Quantity = 1, Value = "0,00" });
 
             await GetViewBagItems();

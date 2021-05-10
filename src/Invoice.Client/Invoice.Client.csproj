@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="jQuery.InputMask" Version="5.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.13" />
+    <PackageReference Include="XlsxToJson" Version="0.0.1-beta" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.13">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,5 +17,4 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <ProjectReference Include="..\PdfGenerator\PdfGenerator.csproj" />
   </ItemGroup>
-
 </Project>

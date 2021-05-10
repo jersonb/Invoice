@@ -5,10 +5,19 @@
 }
 
 <partial name="Create">
+    <div class="row justify-content-between rigth">
+        <div class="col-6 col-sm-6 ">
+        </div>
+        <div class="col-6 col-sm-6 ">
+            <a asp-action="ShowView" class="btn btn-danger" asp-route-id="@Model.FindId" asp-route-view="Delete">Deletar</a>
+            <a asp-action="ShowView" class="btn btn-warning" asp-route-id="@Model.FindId" asp-route-view="Edit">Editar</a>
+            <a asp-action="ShowView" class="btn btn-primary" asp-route-id="@Model.FindId" asp-route-view="LikeModel">Usar Como Modelo</a>
+        </div>
+    </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-<script>
-    DisableForm(true);
-</script>
+    <script>
+        DisableForm();
+    </script>
 }
