@@ -27,7 +27,6 @@ namespace Invoice.Client
             {
                 options.UseNpgsql(Configuration.GetConnectionString("Invoices"));
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                
             });
 
             services.AddHttpsRedirection(options => options.HttpsPort = 443);

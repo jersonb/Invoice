@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,7 +39,7 @@ namespace Invoice.Client.Controllers
             }
         }
 
-        public async Task<IActionResult> AddFindIdInClinetonOldInvoices()
+        public async Task<IActionResult> AddFindIdInClintOnOldInvoices()
         {
             try
             {
@@ -55,24 +54,21 @@ namespace Invoice.Client.Controllers
                                                   .Where(x => x.Invoice.IsActive && x.Invoice.Client.FindId == null)
                                                   .ToListAsync();
 
-                _logger.LogInformation("Funciona");
-
                 invoices.ForEach(invoice =>
                 {
                     var customer = customers.FirstOrDefault(c => c.LegalNumber == invoice.Invoice.Client.LegalNumber);
                     invoice.Invoice.Client = customer;
-                    _logger.LogInformation(JsonConvert.SerializeObject(invoice));
+                    var entity = _context.Invoices.Update(invoice);
+                    entity.State = EntityState.Detached;
                 });
 
-                _context.Invoices.UpdateRange(invoices);
                 await _context.SaveChangesAsync();
 
                 return RedirectToActionPermanent("Index", "Invoice");
             }
             catch(Exception ex)
             {
-                _logger.LogInformation(ex.Message);
-                throw;
+                throw ex;
             }
         }
     }

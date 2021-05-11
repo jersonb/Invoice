@@ -14,7 +14,7 @@ namespace Invoice.Client.Models
 
         public string FindId { get; set; }
 
-        [DisplayName("Número")]
+        [DisplayName("NÃºmero")]
         [Required(ErrorMessage = "Informe {0}")]
         public string Number { get; set; }
 
@@ -29,11 +29,11 @@ namespace Invoice.Client.Models
         [Required(ErrorMessage = "Informe {0}")]
         public DateTime? Date { get; set; }
 
-        [DisplayName("Período do Serviço")]
-        [MaxLength(30, ErrorMessage = "máximo de {1} para {0}")]
+        [DisplayName("PerÃ­odo do ServiÃ§o")]
+        [MaxLength(30, ErrorMessage = "mÃ¡ximo de {1} para {0}")]
         public string ServicePeriod { get; set; }
 
-        [DisplayName("Observação")]
+        [DisplayName("ObservaÃ§Ã£o")]
         public string Observation { get; set; }
 
         [DisplayName("Produtos")]
