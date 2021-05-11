@@ -49,17 +49,24 @@ namespace Invoice.Client.Controllers
                                                    .Where(x => x.Customer.IsActive)
                                                    .Select(x => x.Customer)
                                                    .ToListAsync();
+
                 var invoices = await _context.Invoices
                                                   .AsNoTracking()
                                                   .Where(x => x.Invoice.IsActive && x.Invoice.Client.FindId == null)
                                                   .ToListAsync();
+
                 _logger.LogInformation("Funciona");
+
                 invoices.ForEach(invoice =>
                 {
                     var customer = customers.FirstOrDefault(c => c.LegalNumber == invoice.Invoice.Client.LegalNumber);
                     invoice.Invoice.Client = customer;
                     _logger.LogInformation(JsonConvert.SerializeObject(invoice));
                 });
+
+                _context.Invoices.UpdateRange(invoices);
+                await _context.SaveChangesAsync();
+
                 return RedirectToActionPermanent("Index", "Invoice");
             }
             catch(Exception ex)
