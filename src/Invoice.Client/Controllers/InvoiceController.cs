@@ -210,7 +210,11 @@ namespace Invoice.Client.Controllers
             var customers = await _dbcontext.Customers
                                     .AsNoTracking()
                                     .Where(x => x.Customer.IsActive)
-                                    .Select(x => new SelectListItem { Text = x.Customer.Name, Value = x.Customer.FindId })
+                                    .Select(x => new SelectListItem 
+                                    { 
+                                        Text = $"{ x.Customer.Name} - {x.Customer.LegalNumber}", 
+                                        Value = x.Customer.FindId 
+                                    })
                                     .ToListAsync();
 
             ViewBag.Items = customers;
