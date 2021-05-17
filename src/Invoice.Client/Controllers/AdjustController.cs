@@ -39,29 +39,35 @@ namespace Invoice.Client.Controllers
             }
         }
 
+        public async Task<IActionResult> AddFindIdOnCutomers()
+        {
+            var invoices = await _context.Invoices
+                                                  .AsNoTracking()
+                                                  .Where(x => x.Invoice.IsActive)
+                                                  .ToListAsync();
+
+            return RedirectToActionPermanent("Index", "Customer");
+        }
+
         public async Task<IActionResult> AddFindIdInClintOnOldInvoices()
         {
             try
             {
                 var customers = await _context.Customers
-                                                   .AsNoTracking()
                                                    .Where(x => x.Customer.IsActive)
                                                    .Select(x => x.Customer)
                                                    .ToListAsync();
 
-                var invoices = await _context.Invoices
-                                                  .AsNoTracking()
-                                                  .Where(x => x.Invoice.IsActive && x.Invoice.Client.FindId == null)
+                var invoices = await _context.Invoices.AsNoTracking()
+                                                  .Where(x => x.Invoice.IsActive)
                                                   .ToListAsync();
 
                 invoices.ForEach(invoice =>
                 {
-                    var customer = customers.FirstOrDefault(c => c.LegalNumber == invoice.Invoice.Client.LegalNumber);
+                    var customer = customers.FirstOrDefault(c => c.LegalNumber.Equals(invoice.Invoice.Client.LegalNumber));
                     invoice.Invoice.Client = customer;
-                    var entity = _context.Invoices.Update(invoice);
-                    entity.State = EntityState.Detached;
                 });
-
+                _context.Invoices.UpdateRange(invoices);
                 await _context.SaveChangesAsync();
 
                 return RedirectToActionPermanent("Index", "Invoice");
